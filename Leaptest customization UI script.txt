@@ -1,0 +1,166 @@
+name: Leaptest Integration
+description: Run a Leaptest schedule and adds test results for step case type
+author: Customatics
+version: 1.0
+includes: ^runs/view
+excludes: 
+
+js:
+$(document).ready(
+	function() {
+		
+		 var button = $('<div class="toolbar content-header-toolbar"><a class="toolbar-button toolbar-button-last toolbar-button-first content-header-button button-start" onclick="ShowLeaptestDialog()" >Select Schedule</a></div>');
+
+        $("#content-header .content-header-inner").prepend(button);		
+
+ $('<div id="leaptestDialog" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable dialog ui-resizable" tabindex="-1" role="dialog" aria- labelledby="ui-dialog-title-runLeaptestSchedule" style = "display: none; z - index: 1002; outline: 0px; height: 500px; width: 800px; position: absolute; top: 175px; left: 190px;" ><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix" style="background: rgb(31, 166, 245); color: rgb(255, 255, 255);"><span class="ui-dialog-title" id="ui-dialog-title-runLeaptestSchedule">Run Leaptest Schedule</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick" onclick="HideLeaptestDialog()">close</span></a></div><div class="dialog ui-dialog-content ui-widget-content" id="runLeaptestScheduleDialog" style="width: auto; height: 404px; display: block; min-height: 0px;"><div class="dialog-title"><span class="addResult">Run Leaptest Schedule</span></div><form id="runLeaptestScheduleForm"><div class="dialog-body result-dialog-body" style="height: 440px;"><div class="result-dialog-busy resultBusy" style="margin: auto; padding-top: 151px; display: none;"><img src="images/animations/progressLarge.gif" width="32" height="32" alt=""><p></p></div><div class="result-dialog-container resultContainer hidden" style="display: block;"><div class="message message-error hidden validationError" id="runLeaptestScheduleErrors"></div><div class="table"><div class="column result-dialog-column-left" style="width: 50%;"><div class="form-group"><label for="leaptestControllerURL">Leaptest controller URL <span class="form-required">*</span></label><input type="text" id="leaptestControllerURL" class="form-control form-control-full" name="LeaptestControllerURL"><div class="form-description">Set Leaptest controller URL like http://{hostname}:9000</div><button type="button" id="getProjectsAndSchedulesButton" onclick="GetProjectsAndSchedules()"  class="button button-left button-dark"><span>Get Projects and Schedules</span></button></div><br><div class="form-group"><label for="leaptestProjectSelect">Leaptest projects<span class="form-required">*</span></label><select class="form-control form-control-small form-select" name="leaptestProject" id="leaptestProjectSelect" onchange="GetSchedules()"><!-- AJAX GET REQUEST LEAPTEST API PROJECTS --></select><div class="form-description">Select Leaptest Project.</div></div><div class="form-group"><label for="leaptestScheduleSelect">Leaptest schedules<span class="form-required">*</span></label><select class="form-control form-control-small form-select" name="leaptestSchedule" id="leaptestScheduleSelect"><!-- AJAX GET REQUEST LEAPTEST API SCHEDULES --></select><div class="form-description">Select Leaptest Schedule.</div></div><div class="form-group"><label for="timeDelay">Time delay in seconds <span class="form-required">*</span></label><input type="text" id="timeDelay" class="form-control form-control-full" name="timeDelay"><div class="form-description">After schedule is run, wait and ask for schedule state</div></div><div class="form-group"><label for="doneStatusAsSelect">Done status As</label><select class="form-control form-control-small form-select" name="doneStatusAsSelect" id="doneStatusAsSelect"><option value="5" selected>Failed</option><option value="1">Passed</option><option value="4">Retest</option><option value="2">Blocked</option></select><div class="form-description">How done status should be interpreted</div></div></div><div class="column result-dialog-column-right"><div class="form-group"><label for="testRailURL">TestRail Address <span class="form-required">*</span></label><input type="text" id="testRailURL" class="form-control form-control-full" name="testRailURL"><div class="form-description">Enter here TestRail url like http://{hostname}/testrail/</div></div><div class="form-group"><label for="testRailUser">Your TestRail Login <span class="form-required">*</span></label><input type="text" id="testRailUser" class="form-control form-control-full" name="testRailUser"><div class="form-description">Enter here your login</div></div><div class="form-group"><label for="testRailPassword">Your TestRail Password <span class="form-required">*</span></label><input type="password" id="testRailPassword" class="form-control form-control-full" name="testRailPassword"><div class="form-description">Enter here password. This is required for TestRail API</div></div></div></div></div></div></form></div><div class="dialog-buttons-pane-container dialog-buttons-pane-container-dark"><div id="runScheduleButtons" class="button-group dialog-buttons-pane"><button type="button" id="runScheduleButton" onclick="RunSchedule()" style="display: block;" class="button button-left button-positive button-ok button-dark"><span class="addResult">Run Schedule</span></button><button type="button" id="runScheduleCancelButton"  class="button button-left button-negative button-cancel button-dark" onclick="HideLeaptestDialog()"><span>Cancel</span></button></div></div></div>').appendTo('body');
+
+    });
+
+
+function GetProjectsAndSchedules()
+{
+    if (!document.getElementById('leaptestControllerURL').value) {
+        alert("URL field is empty! Cannot connect to controller!");
+    }
+    else {
+        GetProjects();
+       setTimeout(GetSchedules,500);  
+    }
+}
+
+function GetProjects()
+{
+
+    (jQuery).ajax({
+        url: document.getElementById('leaptestControllerURL').value + "/api/v1/Projects",
+        type: 'GET',
+        dataType: "json",
+        success: function (jsonProjects) {
+
+            var projectSelect = document.getElementById('leaptestProjectSelect');
+            projectSelect.innerHTML = "<!-- AJAX GET REQUEST LEAPTEST API PROJECTS -->";
+
+            for (var i = 0; i < jsonProjects.length; i++) {
+
+                var option = document.createElement('option');
+                option.value = jsonProjects[i].Id;
+                option.innerHTML = jsonProjects[i].Title;
+                projectSelect.appendChild(option);
+
+                if (i == 0) projectSelect.value = option.value;
+            }
+
+            jsonProjects = null;
+
+          
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(
+                "Error occurred! Cannot get the list of Projects!\n" +
+                "Status: " + textStatus + "\n" +
+                "Error: " + errorThrown + "\n" +
+                "This may occur because of the next reasons:\n" +
+                "1.Wrong Controller URL\n" +
+                "2.Controller is not running or updating now, check it in services\n" +
+                "3.Your Leaptest Controller port is blocked.\nUse 'netstat -na | find \"9000\"' command, The result should be:\n 0.0.0.0:9000  0.0.0.0:0  LISTENING\n" +
+                "4.You are using https in controller URL, which is not supported. HTTP only!\n" +
+                "5.Your browser has such a setting enabled that blocks any http requests from https\n" +
+                "If nothing helps, please contact support https://leaptest.com/support"
+            );
+        }
+    });
+}
+
+
+
+function GetSchedules()
+{
+    var scheduleProjectId = document.getElementById('leaptestProjectSelect').value;
+    (jQuery).ajax({
+        url: document.getElementById("leaptestControllerURL").value + "/api/v1/runSchedules",
+        type: 'GET',
+        dataType: "json",
+        success: function (jsonSchedules) {
+
+            var scheduleSelect = document.getElementById('leaptestScheduleSelect');
+            scheduleSelect.innerHTML = "<!-- AJAX GET REQUEST LEAPTEST API SCHEDULES -->";
+
+            for (var i = 0; i < jsonSchedules.length; i++) {
+                if (jsonSchedules[i].IsDisplayedInScheduleList == true && jsonSchedules[i].ProjectId == scheduleProjectId)
+                {
+                    var option = document.createElement('option');
+                    option.value = jsonSchedules[i].Id;
+                    option.innerHTML = jsonSchedules[i].Title;
+                    scheduleSelect.appendChild(option);
+
+                    if (i == 0) scheduleSelect.value = option.value;
+                }
+            }
+
+            jsonSchedules = null;
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(
+                "Error occurred! Cannot get the list of Projects!\n" +
+                "Status: " + textStatus + "\n" +
+                "Error: " + errorThrown + "\n" +
+                "This may occur because of the next reasons:\n" +
+                "1.Wrong Controller URL\n" +
+                "2.Controller is not running or updating now, check it in services\n" +
+                "3.Your Leaptest Controller port is blocked.\nUse 'netstat -na | find \"9000\"' command, The result should be:\n 0.0.0.0:9000  0.0.0.0:0  LISTENING\n" +
+                "4.You are using https in controller URL, which is not supported. HTTP only!\n" +
+                "5.Your browser has such a setting enabled that blocks any http requests from https\n" +
+                "If nothing helps, please contact support https://leaptest.com/support"
+            );
+        }
+    });
+
+}
+
+function RunSchedule()
+{
+    $.ajax(
+        {
+            url: document.getElementById('testRailURL').value + '/' + "leaptest.php?",
+            data: {
+                runId: uiscripts.context.run.id,
+                testRailAddress: document.getElementById('testRailURL').value,
+                testRailUser: document.getElementById('testRailUser').value, 
+                testRailPassword: document.getElementById('testRailPassword').value, 
+                leaptestControllerURL: document.getElementById('leaptestControllerURL').value, 
+                scheduleId: document.getElementById('leaptestScheduleSelect').value, 
+                delay: document.getElementById('timeDelay').value,
+                doneStatusAs: document.getElementById('doneStatusAsSelect').value
+            },
+            dataType: "json",
+            type: "POST",
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                App.Dialogs.error(
+                    'An error occurred while trying to trigger the automated tests.'
+                );
+            }
+        });
+
+    App.Dialogs.message(
+        'The tests are being processed in the background and the results are automatically posted back to TestRail. This page refreshes once the tests are finished.',
+        'Confirmation'
+    );
+
+    HideLeaptestDialog();
+
+    return false;
+}
+
+function ShowLeaptestDialog()
+{
+    document.getElementById('leaptestDialog').setAttribute('style','display: block; z - index: 1002; outline: 0px; height: 500px; width: 800px; position: absolute; top: 175px; left: 190px;');
+}
+
+function HideLeaptestDialog() {
+    document.getElementById('leaptestDialog').setAttribute('style', 'display: none; z - index: 1002; outline: 0px; height: 500px; width: 800px; position: absolute; top: 175px; left: 190px;');
+}
