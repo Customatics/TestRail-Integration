@@ -31,24 +31,24 @@ You can easily configure integration directly in TestRail enjoying UI friendly c
 17. Each run has its own log file. You can find it in the folder with TestRailsCMD.jar     
 
 # Screenshots
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/9.jpg.png)
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/8.jpg.png)
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/1.jpg.png)
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/10.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/9.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/8.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/1.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/10.png)
 
 Leaptest case keyframes are set in TestRail actual results
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/2.jpg.png)
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/3.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/2.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/3.png)
 
 If non-step TestRail case is used, you'll get the next message in test comments, and Test status is set to RETEST
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/4.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/4.png)
 
 If schedule run is cancelled, you'll get the next message in test comments, and Test status is set to RETEST
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/5.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/5.png)
 
 If schedule could not connect to environment, step status is set to RETEST
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/6.jpg.png)
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/7.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/6.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/7.png)
 
 If number of environments and steps are not equal, you'll get the next message
-![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/11.jpg.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/11.png)
