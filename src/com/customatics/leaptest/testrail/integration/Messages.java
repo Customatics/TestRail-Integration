@@ -32,8 +32,6 @@ public final class Messages {
     public static final String CONTROLLER_RESPONDED_WITH_ERRORS = "Controller responded with errors! Please check controller logs and try again! If does not help, try to restart controller.";
     public static final String PLEASE_CONTACT_SUPPORT = "If nothing helps, please contact support https://leaptest.com/support and provide the next information:\n1.Plugin Logs\n2.Leaptest and plugin version\n3.Controller logs from the moment you've run the plugin.\n4.Assets without videos if possible.\nYou can find them {Path to Leaptest}/LEAPTEST/Assets\nThank you".replace("\n", NEW_LINE);
 
-    public static final String ERROR_CODE_MESSAGE = "Code: %1$s Status: %2$s!";
-
     public static final String GET_TESTRAIL_TESTS_GET = "get_tests/%1$s";
     public static final String SET_TESTRAIL_TESTS_RESULTS_POST = "add_results/%1$s";
     public static final String GET_TESTRAIL_TEST_GET = "%1$s/index.php?/tests/view/%2$s";
@@ -50,7 +48,20 @@ public final class Messages {
     public static final String THIS_STEP_WAS_NOT_RUN = "This step was not even run due to:\n1.Leaptest schedule run cancellation.\n2.Error in connection to TestRail or Leaptest. Check Testrail URL, login, password and Leaptest controller: its URL and if it is run in services.\n 3.You've selected schedule that does not have this case.\n4.Schedule environments quantity is less than steps in TestRail case.\n5.You have more than one case with the same name in a run.".replace("\n", NEW_LINE);
 
     public static final String CANNOT_SET_ANY_RESULTS_AS_TESTS_ARE_NOT_GOT = "Cannot set test error results because tests are not got";
-    public static final String COULD_NOT_CONNECT_TO = "Could not connect to %1$s! Check it and try again!";
     public static final String ADD_CASE_ID_INFORMATION_TO_COMMENT = "TestRail case Id: %1$d\n Leaptest case Id: %2$s".replace("\n", NEW_LINE);
     public static final String STEPS_AND_ENVIRONMENTS_QUANTITY_ARE_NOT_EQUAL = "Test steps quantity and schedule environments quantity are not equal.\n Steps: %1$d\n Environments: %2$d\n Check steps quantity in your TestRail case and environments quantity in Leaptest schedule".replace("\n", NEW_LINE);
+
+    public static final String ERROR_CODE_MESSAGE = "Code: %1$s Status: %2$s!";
+    public static final String COULD_NOT_CONNECT_TO = "Could not connect to %1$s! Check it and try again! ";
+    public static final String COULD_NOT_CONNECT_TO_BUT_WAIT = "Could not connect to %1$s! Check connection! The plugin is waiting for connection reestablishment! ";
+    public static final String CONNECTION_LOST = "Connection to controller is lost: %1$s! Check connection! The plugin is waiting for connection reestablishment!";
+    public static final String INTERRUPTED_EXCEPTION = "Interrupted exception: %1$s!";
+    public static final String EXECUTION_EXCEPTION = "Execution exception: %1$s!";
+    public static final String IO_EXCEPTION = "I/O exception: %1$s!";
+    public static final String EXCEPTION = "Exception: %1$s!";
+    public static final String CACHE_TIMEOUT_EXCEPTION = "Cache time out exception has occurred! Don't worry! This schedule %1$s[%2$s] will be run again later!";
+
+    public static final String LICENSE_EXPIRED = "Your Leaptest license has expired. Please contact support https://leaptest.com/support";
+
+    public static final String SCHEDULE_IS_STILL_RUNNING = "Schedule %1$s[%2$s] is still running!";
 }

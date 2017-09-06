@@ -17,7 +17,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException, APIException {
 
-
         FileHandler logFileHandler = new FileHandler(String.format(Messages.LOG_FILE_NAME, args[0]));
         logger.addHandler(logFileHandler);
         SimpleFormatter formatter = new SimpleFormatter();
@@ -67,17 +66,32 @@ public class Main {
 
             pluginHandler.checkEnvironmentsAndStepsQuantity(schedule,testRailTests);
 
-            if (pluginHandler.runSchedule(leaptestControllerURL,schedule)) // if schedule was successfully run
-            {
-                boolean isStillRunning = true;
+            RUN_RESULT runResult = RUN_RESULT.RUN_REPEAT;
 
-                do
+            do {
+                runResult = pluginHandler.runSchedule(leaptestControllerURL,schedule);
+
+                if (runResult.equals(RUN_RESULT.RUN_SUCCESS)) // if schedule was successfully run
+                {
+                    boolean isStillRunning = true;
+
+                    do
+                    {
+                        Thread.sleep(timeDelay * 1000); //Time delay
+                        isStillRunning = pluginHandler.getScheduleState(leaptestControllerURL,schedule, doneStatus);
+                        logger.info(String.format(Messages.SCHEDULE_IS_STILL_RUNNING,schedule.getScheduleTitle(),schedule.getScheduleId()));
+                    }
+                    while (isStillRunning);
+                }
+                else if (runResult.equals(RUN_RESULT.RUN_REPEAT))
                 {
                     Thread.sleep(timeDelay * 1000); //Time delay
-                    isStillRunning = pluginHandler.getScheduleState(leaptestControllerURL,schedule, doneStatus);
                 }
-                while (isStillRunning);
-            }
+                else
+                {
+                    //In case of error getScheduleState throws exception, so this block is unreachable
+                }
+            } while (runResult.equals(RUN_RESULT.RUN_REPEAT));
 
             pluginHandler.setTestRailTestResults(testRailRunId,testRailAPIclient,schedule,testRailTests);
 

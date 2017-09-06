@@ -3,7 +3,7 @@
 This is Leaptest Integration plugin for TestRail
 
 # More Details
-Leaptest is a mighty automation testing system and now it can be used for running test runs (step case type only) in Testrail from version 4.x. Tested on version 5.4.0.3659 
+Leaptest is a mighty automation testing system and now it can be used for running test runs (step case type only) in Testrail from version 4.x. Tested on version 5.4.0.3659.
 You can easily configure integration directly in TestRail enjoying UI friendly configuration page with easy connection and schedule selection.
 
 # Installation
@@ -13,7 +13,7 @@ You can easily configure integration directly in TestRail enjoying UI friendly c
 
 # Instruction
 1. Prepare a schedule to run in Leaptest, add cases and environments to it.
-2. Create a TestRail case with STEPS. The TestRail case name MUST match a Leaptest case name in the schedule. Add as many steps for your case as your schedule has environments. Your case MUST have a step per schedule environment.
+2. Create a TestRail case with STEPS. A TestRail case name MUST match a Leaptest case name in a schedule you are going to run. Add as many steps for your case as your schedule has environments. Your case MUST have a step per schedule environment.
 3. Create TestRail test run with the same cases as Leaptest schedule has.
 4. Press the button "Select Schedule". Leaptest integration dialog will open.
 5. Enter Leaptest controller URL like http://{hostname}:9000
