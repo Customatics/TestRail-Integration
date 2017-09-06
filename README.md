@@ -3,7 +3,7 @@
 This is Leaptest Integration plugin for TestRail
 
 # More Details
-Leaptest is a mighty automation testing system and now it can be used for running test runs (step case type only) in Testrail from version 4.x. Tested on version 5.4.0.3659.
+Leaptest is a mighty automation testing system and now it can be used for running test runs (step case type only) in Testrail from version 4.x. Tested on version 5.4.0.3659 
 You can easily configure integration directly in TestRail enjoying UI friendly configuration page with easy connection and schedule selection.
 
 # Installation
@@ -13,15 +13,15 @@ You can easily configure integration directly in TestRail enjoying UI friendly c
 
 # Instruction
 1. Prepare a schedule to run in Leaptest, add cases and environments to it.
-2. Create a TestRail case with STEPS. A TestRail case name MUST match a Leaptest case name in a schedule you are going to run. Add as many steps for your case as your schedule has environments. Your case MUST have a step per schedule environment.
-3. Create TestRail test run with the same cases as Leaptest schedule has.
-4. Press the button "Select Schedule". Leaptest integration dialog will open.
+2. Create a TestRail case with STEPS. The TestRail case name MUST match a Leaptest case name in the schedule. Add as many steps for your case as your schedule has environments. Your case MUST have a step per schedule environment (Screenshot 1).
+3. Create TestRail test run with the same cases as Leaptest schedule has (Screenshot 2).
+4. Press the button "Select Schedule". Leaptest integration dialog will open (Screenshot 3).
 5. Enter Leaptest controller URL like http://{hostname}:9000
 6. Press the button "Get Projects and Schedules". Project select menu will get all projects, and Schedule select menu will get all schedules of the selected project.
 7. Select the schedule you've prepared.
 8. Enter the time delay parameter in seconds. When the schedule is running, the plugin waits for this time and then asks Leaptest controller for schedule state. If the schedule is still running, the plugin will wait again. If you run cases that are executed within minutes or hours, it's better to set this parameter value equivalent to some minutes, for example 600 for 10 minutes interval.
 9. Select how cases with "done" status should be interpreted.
-10. Enter TestRail URL, you can find it in Administartion => Site Settings => Web Address.
+10. Enter TestRail URL, you can find it in Administartion => Site Settings => Web Address (Screenshot 4).
 11. Enter your Login.
 12. Enter your password.
 13. TestRail URL, login and password are required for TestRail API to set results.
@@ -31,5 +31,24 @@ You can easily configure integration directly in TestRail enjoying UI friendly c
 17. Each run has its own log file. You can find it in the folder with TestRailsCMD.jar     
 
 # Screenshots
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/9.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/8.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/1.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/10.png)
 
-![ScreenShot]()
+Leaptest case keyframes are set in TestRail actual results
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/2.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/3.png)
+
+If non-step TestRail case is used, you'll get the next message in test comments, and Test status is set to RETEST
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/4.png)
+
+If schedule run is cancelled, you'll get the next message in test comments, and Test status is set to RETEST
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/5.png)
+
+If schedule could not connect to environment, step status is set to RETEST
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/6.png)
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/7.png)
+
+If number of environments and steps are not equal, you'll get the next message
+![ScreenShot](http://customatics.com/wp-content/uploads/2017/07/11.png)
